@@ -1,2 +1,2 @@
-# somke
+# SOMKE
 SOMKE 脚本架
