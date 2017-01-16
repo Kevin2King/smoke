@@ -1,0 +1,8 @@
+body {
+    font-family: 'Microsoft YaHei', 'simsun', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.sort-column {
+    color: #3598DC;
+    cursor: pointer;
+}

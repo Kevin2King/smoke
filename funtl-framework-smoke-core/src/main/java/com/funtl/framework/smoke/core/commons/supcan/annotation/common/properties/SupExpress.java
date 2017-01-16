@@ -1,0 +1,46 @@
+/*
+ * Copyright 2015-2017 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.funtl.framework.smoke.core.commons.supcan.annotation.common.properties;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * 硕正Express注解
+ *
+ * @author WangZhen
+ * @version 2013-11-12
+ */
+@Target({ElementType.ANNOTATION_TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+public @interface SupExpress {
+
+	/**
+	 * 是否自动按列的引用关系优化计算顺序  默认值true
+	 */
+	String isOpt() default "";
+
+	/**
+	 * 文本
+	 */
+	String text() default "";
+
+}

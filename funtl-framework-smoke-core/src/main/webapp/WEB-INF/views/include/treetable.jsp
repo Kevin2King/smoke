@@ -1,0 +1,2 @@
+<link href="${cdn}/plugins/treeTable/themes/vsStyle/treeTable.min.css" rel="stylesheet" type="text/css" />
+<script src="${cdn}/plugins/treeTable/jquery.treeTable.min.js" type="text/javascript"></script>

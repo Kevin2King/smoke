@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funtl.framework.smoke.core.modules.sys.dao.SysMailDao">
+	<cache type="com.funtl.framework.smoke.core.commons.persistence.redis.RedisCache" />
+    
+	<sql id="sysMailColumns">
+		a.id AS "id",
+		a.mail_host AS "mailHost",
+		a.mail_port AS "mailPort",
+		a.mail_username AS "mailUsername",
+		a.mail_password AS "mailPassword",
+		a.mail_from AS "mailFrom",
+		a.mail_ssl AS "mailSsl"
+	</sql>
+	
+	<sql id="sysMailJoins">
+	</sql>
+    
+	<select id="get" resultType="SysMail">
+		SELECT 
+			<include refid="sysMailColumns"/>
+		FROM sys_mail a
+		<include refid="sysMailJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="SysMail">
+		SELECT 
+			<include refid="sysMailColumns"/>
+		FROM sys_mail a
+		<include refid="sysMailJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="SysMail">
+		SELECT 
+			<include refid="sysMailColumns"/>
+		FROM sys_mail a
+		<include refid="sysMailJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sys_mail(
+			id,
+			mail_host,
+			mail_port,
+			mail_username,
+			mail_password,
+			mail_from,
+			mail_ssl
+		) VALUES (
+			#{id},
+			#{mailHost},
+			#{mailPort},
+			#{mailUsername},
+			#{mailPassword},
+			#{mailFrom},
+			#{mailSsl}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_mail SET 	
+			mail_host = #{mailHost},
+			mail_port = #{mailPort},
+			mail_username = #{mailUsername},
+			mail_password = #{mailPassword},
+			mail_from = #{mailFrom},
+			mail_ssl = #{mailSsl}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM sys_mail
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

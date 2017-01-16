@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+    <name>api</name>
+    <filePath>src/main/java/${packageName}/${moduleName}/api/${subModuleName}</filePath>
+    <fileName>${ClassName}APIController.java</fileName>
+    <content><![CDATA[
+package ${packageName}.${moduleName}.api<#if subModuleName != "">.${subModuleName}</#if>;
+
+import java.util.List;
+
+import com.funtl.framework.core.dto.BaseResult;
+import com.funtl.framework.core.web.BaseController;
+import com.wordnik.swagger.annotations.ApiOperation;
+import com.wordnik.swagger.annotations.ApiParam;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import ${packageName}.${moduleName}.entity<#if subModuleName != "">.${subModuleName}</#if>.${ClassName};
+import ${packageName}.${moduleName}.service<#if subModuleName != "">.${subModuleName}</#if>.${ClassName}Service;
+
+/**
+ * ${functionName}APIController
+ * @author ${functionAuthor}
+ * @version ${functionVersion}
+ */
+@RestController
+@RequestMapping(value = "${r"${apiPath}"}/${moduleName}")
+public class ${ClassName}APIController extends BaseController {
+    @Autowired
+    private ${ClassName}Service ${className}Service;
+
+    @RequestMapping(value = "${className}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(
+            value = "获取全部数据",
+            httpMethod = "GET",
+            response = ${ClassName}.class,
+            notes = "获取全部数据"
+    )
+    public BaseResult<List<${ClassName}>> getList() {
+        return new BaseResult<List<${ClassName}>>(true, ${className}Service.findList(new ${ClassName}()));
+    }
+
+    @RequestMapping(value = "${className}/{id}", method = RequestMethod.GET)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(
+            value = "根据ID获取数据项",
+            httpMethod = "GET",
+            response = ${ClassName}.class,
+            notes = "根据ID获取数据项"
+    )
+    public BaseResult<${ClassName}> getObj(@ApiParam(required = true, name = "id", value = "数据项ID") @PathVariable String id) {
+        return new BaseResult<${ClassName}>(true, ${className}Service.get(id));
+    }
+
+	// ---------------------------------------- 校验代码 ----------------------------------------
+
+    // ---------------------------------------- 业务代码 ----------------------------------------
+
+}]]>
+    </content>
+</template>

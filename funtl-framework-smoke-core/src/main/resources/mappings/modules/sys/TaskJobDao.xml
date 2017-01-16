@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funtl.framework.smoke.core.modules.sys.dao.TaskJobDao">
+
+	<sql id="taskJobColumns">
+		a.id AS "id",
+		a.task_job_code AS "taskJobCode",
+		a.task_job_name AS "taskJobName",
+		a.task_job_group AS "taskJobGroup",
+		a.task_job_cron AS "taskJobCron",
+		a.task_job_status AS "taskJobStatus",
+		a.task_job_bean AS "taskJobBean",
+		a.task_job_concurrent AS "taskJobConcurrent",
+		a.task_job_spring AS "taskJobSpring",
+		a.task_job_method AS "taskJobMethod",
+		a.task_job_ip AS "taskJobIp",
+		a.sort AS "sort",
+		a.create_by AS "createBy.id",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="taskJobJoins">
+	</sql>
+    
+	<select id="get" resultType="TaskJob">
+		SELECT 
+			<include refid="taskJobColumns"/>
+		FROM task_job a
+		<include refid="taskJobJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="TaskJob">
+		SELECT 
+			<include refid="taskJobColumns"/>
+		FROM task_job a
+		<include refid="taskJobJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="taskJobName != null and taskJobName != ''">
+				AND a.task_job_name LIKE 
+					<if test="dbName == 'mysql'">concat('%',#{taskJobName},'%')</if>
+			</if>
+			<if test="taskJobStatus != null and taskJobStatus != ''">
+				AND a.task_job_status = #{taskJobStatus}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.sort ASC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="TaskJob">
+		SELECT 
+			<include refid="taskJobColumns"/>
+		FROM task_job a
+		<include refid="taskJobJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO task_job(
+			id,
+			task_job_code,
+			task_job_name,
+			task_job_group,
+			task_job_cron,
+			task_job_status,
+			task_job_bean,
+			task_job_concurrent,
+			task_job_spring,
+			task_job_method,
+			task_job_ip,
+			sort,
+			create_by,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{taskJobCode},
+			#{taskJobName},
+			#{taskJobGroup},
+			#{taskJobCron},
+			#{taskJobStatus},
+			#{taskJobBean},
+			#{taskJobConcurrent},
+			#{taskJobSpring},
+			#{taskJobMethod},
+			#{taskJobIp},
+			#{sort},
+			#{createBy.id},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE task_job SET 	
+			task_job_code = #{taskJobCode},
+			task_job_name = #{taskJobName},
+			task_job_group = #{taskJobGroup},
+			task_job_cron = #{taskJobCron},
+			task_job_status = #{taskJobStatus},
+			task_job_bean = #{taskJobBean},
+			task_job_concurrent = #{taskJobConcurrent},
+			task_job_spring = #{taskJobSpring},
+			task_job_method = #{taskJobMethod},
+			task_job_ip = #{taskJobIp},
+			sort = #{sort},
+			update_by = #{updateBy.id},
+			update_date = #{updateDate},
+			remarks = #{remarks}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE task_job SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

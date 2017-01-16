@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  ~ /*
+  ~   @copyright 		Copyright © 2016 - 2020. [相关部门] All rights reserved.
+  ~   @project   		script - funtl-framework-ssm-admin
+  ~   @file      		shop.tld
+  ~   @author    		warne
+  ~   @date      		16-12-8 下午6:28
+  ~
+  ~   @lastModifie 		16-12-8 下午6:17
+  ~  */
+  -->
+
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+
+    <description>
+        JSTL 1.1 functions library
+        now, just for shop by warne
+    </description>
+    <display-name>JSTL functions sys</display-name>
+    <tlib-version>2.0</tlib-version>
+    <short-name>shop</short-name>
+    <uri>http://java.sun.com/jsp/jstl/functionsshop</uri>
+
+    <function>
+        <description>//# 获取商城名称</description>
+        <name>shopName</name>
+        <function-class>com.funtl.framework.core.config.Global</function-class>
+        <function-signature>java.lang.String getConfig(java.lang.String)</function-signature>
+        <example>${shop:shopName(name)}</example>
+    </function>
+
+    <function>
+        <description>//# 获取商城浏览器标题</description>
+        <name>shopTitle</name>
+        <function-class>com.funtl.framework.core.config.Global</function-class>
+        <function-signature>java.lang.String getConfig(java.lang.String)</function-signature>
+        <example>${shop:shopTitle(code)}</example>
+    </function>
+
+    <function>
+        <description>//# 获取商城浏览器icon</description>
+        <name>shopIcon</name>
+        <function-class>com.funtl.framework.core.config.Global</function-class>
+        <function-signature>java.lang.String shopIcon()</function-signature>
+        <example>${shop:shopIcon()}</example>
+    </function>
+
+</taglib>

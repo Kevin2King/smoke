@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.funtl.framework.smoke.core.modules.version.dao.VersionInfoDao">
+	<cache type="com.funtl.framework.smoke.core.commons.persistence.redis.RedisCache" />
+    
+	<sql id="versionInfoColumns">
+		a.id AS "id",
+		a.unique_code AS "uniqueCode",
+		a.version_name AS "versionName",
+		a.inner_version AS "innerVersion",
+		a.project_code AS "projectCode",
+		a.admin AS "admin",
+		a.password AS "password",
+		a.server_url AS "serverUrl",
+		a.api_version AS "apiVersion",
+		a.version_list_url AS "versionListUrl",
+		a.callback_url AS "callbackUrl",
+		a.version_update_url AS "versionUpdateUrl",
+		a.version_type AS "versionType",
+		a.create_by AS "createBy.id",
+		a.update_version AS "updateVersion",
+		a.create_date AS "createDate",
+		a.update_by AS "updateBy.id",
+		a.update_date AS "updateDate",
+		a.remarks AS "remarks",
+		a.del_flag AS "delFlag"
+	</sql>
+	
+	<sql id="versionInfoJoins">
+	</sql>
+    
+	<select id="get" resultType="VersionInfo">
+		SELECT 
+			<include refid="versionInfoColumns"/>
+		FROM sys_version_info a
+		<include refid="versionInfoJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="VersionInfo">
+		SELECT 
+			<include refid="versionInfoColumns"/>
+		FROM sys_version_info a
+		<include refid="versionInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+			<if test="versionName != null and versionName != ''">
+				AND a.version_name = #{versionName}
+			</if>
+			<if test="innerVersion != null and innerVersion != ''">
+				AND a.inner_version = #{innerVersion}
+			</if>
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="VersionInfo">
+		SELECT 
+			<include refid="versionInfoColumns"/>
+		FROM sys_version_info a
+		<include refid="versionInfoJoins"/>
+		<where>
+			a.del_flag = #{DEL_FLAG_NORMAL}
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+				ORDER BY a.update_date DESC
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sys_version_info(
+			id,
+			unique_code,
+			version_name,
+			inner_version,
+			project_code,
+			admin,
+			password,
+			server_url,
+			api_version,
+			version_list_url,
+			callback_url,
+			version_update_url,
+			version_type,
+			create_by,
+			update_version,
+			create_date,
+			update_by,
+			update_date,
+			remarks,
+			del_flag
+		) VALUES (
+			#{id},
+			#{uniqueCode},
+			#{versionName},
+			#{innerVersion},
+			#{projectCode},
+			#{admin},
+			#{password},
+			#{serverUrl},
+			#{apiVersion},
+			#{versionListUrl},
+			#{callbackUrl},
+			#{versionUpdateUrl},
+			#{versionType},
+			#{createBy.id},
+			#{updateVersion},
+			#{createDate},
+			#{updateBy.id},
+			#{updateDate},
+			#{remarks},
+			#{delFlag}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_version_info SET 	
+			unique_code = #{uniqueCode},
+			version_name = #{versionName},
+			inner_version = #{innerVersion},
+			project_code = #{projectCode},
+			admin = #{admin},
+			password = #{password},
+			server_url = #{serverUrl},
+			api_version = #{apiVersion},
+			version_list_url = #{versionListUrl},
+			callback_url = #{callbackUrl},
+			version_update_url = #{versionUpdateUrl},
+			version_type = #{versionType},
+			update_version = #{updateVersion}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		UPDATE sys_version_info SET 
+			del_flag = #{DEL_FLAG_DELETE}
+		WHERE id = #{id}
+	</update>
+
+	<!--获取当前版本信息-->
+	<select id="findCurrentVersion" resultType="VersionInfo">
+		SELECT
+			<include refid="versionInfoColumns"/>
+			FROM sys_version_info a
+			WHERE a.del_flag = '0' AND a.version_type = '100'
+	</select>
+
+	<!--修改密码-->
+	<update id="modifyPassword" parameterType="VersionInfo">
+		UPDATE sys_version_info SET password = #{password} WHERE id = #{id}
+	</update>
+	
+</mapper>
