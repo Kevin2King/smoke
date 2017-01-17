@@ -1,2 +1,2 @@
-# SOMKE
-SOMKE 脚本架
+# SMOKE
+SMOKE 脚本架
