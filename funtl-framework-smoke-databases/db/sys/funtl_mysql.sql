@@ -15,9 +15,34 @@ drop table if exists sys_menu;
 drop table if exists sys_role;
 drop table if exists task_job;
 drop table if exists sys_mail;
+drop table if exists sys_version_info;
 
 
 /* create tables */
+
+CREATE TABLE sys_version_info (
+  id VARCHAR(36) NOT NULL,
+  unique_code VARCHAR(255) NOT NULL COMMENT '唯一识别码',
+  project_code VARCHAR(255) NOT NULL COMMENT '项目编码',
+  admin VARCHAR(255) NOT NULL COMMENT '账号',
+  password VARCHAR(255) NOT NULL COMMENT '密码',
+  version_name VARCHAR(255) NOT NULL COMMENT '版本名称',
+  inner_version VARCHAR(255) NOT NULL COMMENT '内部版本号',
+  server_url VARCHAR(255) NOT NULL COMMENT '版本服务器地址',
+  api_version VARCHAR(255) NOT NULL COMMENT 'api版本',
+  version_list_url VARCHAR(255) NOT NULL COMMENT '版本列表url',
+  version_type VARCHAR(60) DEFAULT '100' COMMENT '版本类型 100当前版本 101历史版本',
+  callback_url VARCHAR(255) NOT NULL COMMENT '回调地址',
+  update_version VARCHAR(255) NOT NULL COMMENT '申请更新的版本',
+  version_update_url VARCHAR(255) NOT NULL COMMENT '版本更新url',
+  create_by VARCHAR(64) NOT NULL COMMENT '创建者',
+  create_date DATETIME NOT NULL COMMENT '创建时间',
+  update_by VARCHAR(64) NOT NULL COMMENT '更新者',
+  update_date DATETIME NOT NULL COMMENT '更新时间',
+  remarks VARCHAR(255) DEFAULT NULL COMMENT '备注信息',
+  del_flag CHAR(1) NOT NULL DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (id)
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COMMENT='系统版本信息表';
 
 create table sys_area
 (
@@ -251,7 +276,7 @@ create table sys_mail
 
 
 /* create indexes */
-
+create index sys_version_info_del_flag on sys_version_info (del_flag asc);
 create index sys_area_parent_id on sys_area (parent_id asc);
 /*create index sys_area_parent_ids on sys_area (parent_ids asc);*/
 create index sys_area_del_flag on sys_area (del_flag asc);
